@@ -6,31 +6,125 @@
   <script id="challenge">
     // 👉 CHALLENGE 1
     function profileActivation(profile, reason) {
+      if(profile.active){
+        if(reason !== undefined){
+          profile.active = false;
+          profile.reason = reason;
+          return profile;
+        }else{
+          return 'confirm status manually'
+        }
+      }else {
+        profile.active= true;
+        delete profile.reason;
+        return profile;
+      }
 
     }
+    // let profile ={active: true};
+    // let reason = undefined;
+    // let result = profileActivation(profile,reason);
+    // console.log(result)
+   
 
     // 👉 CHALLENGE 2
-    function mineSweeper(grid, x, y) {
+    function mineSweeper(grid,x,y) {
+      if(x<1||x>3||y<1||y>3){
+        return "invalid coordinates"
+      }
+      let square =grid[y - 1][x - 1];
+      if (square==="🟥" ){
+        return "🟥 💀"
+      }else if(square==="🟦"){
+        return "🟦 🥳"
+      }
+     for(let i=0; i<grid.length;i++){
+      for(let j =0; j<grid[i].length;j++){
+        if(i===x && j=== y){
 
-    }
+        }
+      }
+     }
+  }
+   
 
     // 👉 CHALLENGE 3
     function booleanize(obj) {
+      for(let key in obj){
+        if(key.length>9){
+          return "shorten all prop names to 9 chars or less"
+          let shortenedKey = key.substring(0,9);
+          obj[shortenedKey]=obj[key];
+          delete obj[key];
+          key = shortenedKey;
+        }
+        if(obj[key]===0){
+          obj[key]=false;
+        }else if(obj[key]===1){
+          obj[key]=true;
+        }else if(obj[key]===null){
+          delete obj[key];
+        }
+      }
+      return obj
 
     }
 
     // 👉 CHALLENGE 4
     function scrub(text, forbidden) {
+      if(!text || forbidden.length===0){
+        return text
+      }
+      let words= text.split(' ');
+      for(let i = 0; i<words.length;i++){
+        let word = words[i];
+        if(forbidden.includes(word)){
+          words[i]='x'.repeat(word.length);
+        }
+      }
+      return words.join(' ')
 
     }
 
     // 👉 CHALLENGE 5 (bonus, NOT graded)
     function normalizePhoneNumber(num) {
-
+      if(typeof num !=="string"){
+        return 'Invalid input: string expected';
+      }
+      if(num.length!==10 || !/^\d+$/.test(num)){
+        return 'Invalid phone number: must be exactly 10 digits'
+      }
+      let template= '(XXX)XXX-XXXX';
+      let formattedNumber='';
+      let numIndex= num.length - 1;
+      for(let i= template.length - 1; i>=0; i--){
+        if(template[i]==='X'){
+        formattedNumber =num[numIndex]+formattedNumber;
+        numIndex--;
+      }else{
+        formattedNumber= template[i] + formattedNumber;
+      }
+        return formattedNumber
+      
+   
     }
-
+  }
     // 👉 CHALLENGE 6 (bonus, NOT graded)
     function diceRolls() {
+      let rolls= 0;
+      let consecutivesSixes=0;
+      while(true){
+        let roll= Math.floor(Math.radom()*6)+1;
+        rolls++;
+        if(roll===6){
+          consecutivesSixes++;
+        }else{
+          consecutivesSixes=0;
+        }
+        if(consecutivesSixes===3){
+          return rolls;
+        }
+      }
 
     }
 
